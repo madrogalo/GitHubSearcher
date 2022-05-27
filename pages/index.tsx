@@ -1,22 +1,46 @@
 import type { NextPage } from 'next'
 import Card from '../components/card'
-import { useEffect, useState } from 'react'
-import styles from '../styles/Home.module.css'
+import React, { useEffect, useState } from 'react'
 import { IUsers } from '../intarfaces'
+import SearchPanel from '../components/searchPanel'
+import pagestyles from '../styles/Page.module.scss'
+import NoData from '../components/noData'
 
 
 const Home: NextPage = () => {
   const [users, setUsers] = useState<Array<IUsers>>([])
+  const [searchInput, setSearchInput] = useState<string>('')
 
   useEffect(() => {
-    fetch('https://api.github.com/users')
-    .then(res => res.json())
-    .then(users => setUsers(users)
-    )
-  },[])
+    if(searchInput.length > 0) {
+      fetch(`https://api.github.com/users/${searchInput}`)
+      .then(res => res.json())
+      .then(user => {
+        if(user.message) {
+          setUsers([])
+        } else {
+          const arr = [user]
+          setUsers(arr)
+        }
+      })
+    } else {
+      fetch('https://api.github.com/users')
+      .then(res => res.json())
+      .then(users => setUsers(users)
+      )
+    }
+  },[searchInput])
+  
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
+  }
 
   return (
-    <div className={styles.container}>
+    <div className={pagestyles.content}>
+      <SearchPanel 
+        handleSearch={handleSearch} 
+        placeholder='Search for Users' 
+      />
       {
         users.map(user => {
           return (
@@ -29,6 +53,7 @@ const Home: NextPage = () => {
           )
         })
       }
+      {!users.length && <NoData />}
     </div>
   )
 }

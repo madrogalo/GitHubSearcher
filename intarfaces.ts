@@ -42,3 +42,10 @@ export interface IRepos {
   forks: number,
   stargazers_count: number
 }
+export interface IUserInfo {
+  user: IUserId
+}
+export interface ISearchPanel {
+  handleSearch: any;
+  placeholder: string;
+}

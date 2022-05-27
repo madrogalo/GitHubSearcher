@@ -1,16 +1,17 @@
-import type { NextPage } from 'next'
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import Image from "next/image";
-import styles from '../styles/usetid.module.scss'
-import { IUserId } from '../intarfaces'
-import CardRepo from '../components/cardRepo'
+import type { NextPage } from "next"
+import { useRouter } from "next/router"
+import { useEffect, useState } from "react"
+import { IUserId } from "../intarfaces"
+import CardRepo from "../components/cardRepo"
 import { IRepos } from "../intarfaces"
-
+import styles from "../styles/Page.module.scss"
+import SearchPanel from "../components/searchPanel"
+import UserInfo from "../components/userInfo"
+import NoData from '../components/noData'
 
 const UserId: NextPage = () => {
-  const router = useRouter()
-  const { name } = router.query
+  const router = useRouter();
+  const { name } = router.query;
   const [user, setUser] = useState<IUserId>({
     avatar_url: "",
     bio: "",
@@ -21,65 +22,66 @@ const UserId: NextPage = () => {
     location: "",
     name: "",
     public_gists: 0,
-    public_repos: 0
-  })
+    public_repos: 0,
+  });
 
-  const [repos, setRepos] = useState<Array<IRepos>>([])
+  const [repos, setRepos] = useState<Array<IRepos>>([]);
+  const [searchInput, setSearchInput] = useState<string>('')
 
   useEffect(() => {
-    if(name) {
+    if (name) {
       fetch(`https://api.github.com/users/${name}`)
-      .then(res => res.json())
-      .then(user => setUser(user))
+        .then((res) => res.json())
+        .then((user) => setUser(user));
     }
-  },[name])
+  }, [name]);
 
   useEffect(() => {
-    if(name) {
-      fetch(`https://api.github.com/users/${name}/repos`)
-      .then(res => res.json())
-      .then(repos => setRepos(repos))
-    }
-  },[name])
+    if (name) {
+      if(searchInput.length > 0) {
+        fetch(`https://api.github.com/repos/${name}/${searchInput}`)
+          .then((res) => res.json())
+          .then((repo) => {
+            if(repo.message) {
+              setRepos([])
+            } else {
+              const arr = [repo]
+              setRepos(arr)
+            }
 
+          })
+          .catch(_err => setRepos([]))
+      } else {
+        fetch(`https://api.github.com/users/${name}/repos`)
+          .then((res) => res.json())
+          .then((repos) => setRepos(repos));
+      }
+    }
+  }, [name, searchInput]);
+  
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
+  }
 
   return (
-    <div>
-      <div className={styles.userInfo}>
-        <div className={styles.leftUserInfo}>
-          <div className={styles.userImage}>
-            {
-              user.avatar_url && <Image src={user.avatar_url} width={200} height={200} alt={user.name}/>
-            }
-          </div>
-        </div>
-        <div className={styles.rightUserInfo}>
-          <div className={styles.infoText}>
-            <div>Name: <span>{user.name}</span></div>
-            <div>Email: <span>{user.email}</span></div>
-            <div>Location: <span>{user.location}</span></div>
-            <div>Join Date: <span>{user.created_at}</span></div>
-            <div>Followers: <span>{user.followers}</span></div>
-            <div>Following: <span>{user.following}</span></div>
-            <div>Bio: {user.bio}</div>
-          </div>
-        </div>
-      </div>
+    <div className={styles.content}>
+      <UserInfo user={user} />
+      <SearchPanel
+        handleSearch={handleSearch}
+        placeholder={`Search for ${user.name}'s Repositories`}
+      />
 
-      {
-        repos.map(repo => 
-          <CardRepo
-            key={repo.id}
-            name={repo.name}
-            forks={repo.forks}
-            stargazers_count={repo.stargazers_count}
-          />
-        )
-      }
-  
+      {repos.map((repo) => (
+        <CardRepo
+          key={repo.id}
+          name={repo.name}
+          forks={repo.forks}
+          stargazers_count={repo.stargazers_count}
+        />
+      ))}
+      {!repos.length && <NoData />}
     </div>
-  )
+  );
+};
 
-}
-
-export default UserId
+export default UserId;

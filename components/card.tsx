@@ -16,7 +16,7 @@ const Card = ({ avatarUrl, login, url }: ICard) => {
       className={styles.card}
     >
       <div className={styles.leftBlock}>
-        <Image src={avatarUrl}  width={80} height={80} alt={login} />
+        {avatarUrl && <Image src={avatarUrl}  width={80} height={80} alt={login} />}
         <div className={styles.name}>{login}</div>
       </div>
 
