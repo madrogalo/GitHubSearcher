@@ -1,0 +1,29 @@
+
+.userInfo {
+  display: flex;
+  width: 600px;
+  min-height: 292px;
+  border: 1px solid var(--borderColor);
+  border-radius: var(--borderRadius10);
+  background-color: var(--backgroundWhite);
+  box-sizing: border-box;
+  margin: 0 auto;
+
+
+  .leftUserInfo {
+    width: 50%;
+    .userImage {
+      margin: 40px 0px 0px 49px;
+    }
+  }
+
+  .rightUserInfo {
+    width: 50%;
+    span {
+      font-weight: bold;
+    }
+    .infoText {
+      margin-top: 40px;
+    }
+  }
+}
