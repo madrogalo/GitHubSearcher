@@ -5,6 +5,7 @@ import { IUsers } from '../intarfaces'
 import SearchPanel from '../components/searchPanel'
 import pagestyles from '../styles/Page.module.scss'
 import NoData from '../components/noData'
+import debounce from 'lodash.debounce'
 
 
 const Home: NextPage = () => {
@@ -35,10 +36,12 @@ const Home: NextPage = () => {
     setSearchInput(e.target.value);
   }
 
+  const debounceHandleSearch = debounce(handleSearch, 500)
+
   return (
     <div className={pagestyles.content}>
       <SearchPanel 
-        handleSearch={handleSearch} 
+        handleSearch={debounceHandleSearch} 
         placeholder='Search for Users' 
       />
       {

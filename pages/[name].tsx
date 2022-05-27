@@ -8,6 +8,7 @@ import styles from "../styles/Page.module.scss"
 import SearchPanel from "../components/searchPanel"
 import UserInfo from "../components/userInfo"
 import NoData from '../components/noData'
+import debounce from 'lodash.debounce'
 
 const UserId: NextPage = () => {
   const router = useRouter();
@@ -63,11 +64,13 @@ const UserId: NextPage = () => {
     setSearchInput(e.target.value);
   }
 
+  const debounceHandleSearch = debounce(handleSearch, 500)
+
   return (
     <div className={styles.content}>
       <UserInfo user={user} />
       <SearchPanel
-        handleSearch={handleSearch}
+        handleSearch={debounceHandleSearch}
         placeholder={`Search for ${user.name}'s Repositories`}
       />
 
