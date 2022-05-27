@@ -1,20 +1,14 @@
-import React, { useEffect } from 'react'
-import styles from '../styles/Layout.module.scss'
-import { LayoutProps } from '../intarfaces'
+import React from "react";
+import styles from "../styles/Layout.module.scss";
+import { LayoutProps } from "../intarfaces";
 
-const Layout = ({children}: LayoutProps) => {
-
-  useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/posts/1')
-      .then((response) => response.json())
-      .then((json) => console.log(json));
-  }, [])
+const Layout = ({ children }: LayoutProps) => {
   return (
     <div className={styles.container}>
       <h1>GitHub Searcher</h1>
       {children}
     </div>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

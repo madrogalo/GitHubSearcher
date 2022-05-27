@@ -9,6 +9,7 @@ export interface IUsers {
   avatar_url: string,
   url: string,
   login: string,
+  users: any
 }
 
 

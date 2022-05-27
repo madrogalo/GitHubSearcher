@@ -1,17 +1,18 @@
-import type { NextPage } from 'next'
-import Card from '../components/card'
 import React, { useEffect, useState } from 'react'
+import type { NextPage } from 'next'
+import debounce from 'lodash.debounce'
 import { IUsers } from '../intarfaces'
+import Card from '../components/card'
 import SearchPanel from '../components/searchPanel'
 import pagestyles from '../styles/Page.module.scss'
 import NoData from '../components/noData'
-import debounce from 'lodash.debounce'
 
 
-const Home: NextPage = () => {
-  const [users, setUsers] = useState<Array<IUsers>>([])
+const Home: NextPage = (props) => {
+  const { users: propsUsers }: any = props
+  const [users, setUsers] = useState<Array<IUsers>>(propsUsers)
   const [searchInput, setSearchInput] = useState<string>('')
-
+  
   useEffect(() => {
     if(searchInput.length > 0) {
       fetch(`https://api.github.com/users/${searchInput}`)
@@ -25,12 +26,9 @@ const Home: NextPage = () => {
         }
       })
     } else {
-      fetch('https://api.github.com/users')
-      .then(res => res.json())
-      .then(users => setUsers(users)
-      )
+      setUsers(propsUsers)
     }
-  },[searchInput])
+  }, [propsUsers, searchInput])
   
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
