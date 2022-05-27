@@ -1,0 +1,22 @@
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  border: 1px solid var(--borderColor);
+  background-color: var(--backgroundWhite);
+  border-radius: var(--borderRadius10);
+  height: 100px;
+  width: 600px;
+  margin: 20px auto 0 auto;
+
+  .leftBlock {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+
+  }
+  .rigthBlock {
+    margin-right: 20px;
+  }
+}
