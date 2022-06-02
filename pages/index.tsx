@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import type { NextPage } from 'next'
 import debounce from 'lodash.debounce'
 import { IUsers } from '../intarfaces'
+import { fetchUsersByName } from '../utils'
 import Card from '../components/card'
 import SearchPanel from '../components/searchPanel'
 import pagestyles from '../styles/Page.module.scss'
@@ -12,13 +13,12 @@ const Home: NextPage = (props) => {
   const { users: propsUsers }: any = props
   const [users, setUsers] = useState<Array<IUsers>>(propsUsers)
   const [searchInput, setSearchInput] = useState<string>('')
-  
+
   useEffect(() => {
     if(searchInput.length > 0) {
-      fetch(`https://api.github.com/users/${searchInput}`)
-      .then(res => res.json())
-      .then(user => {
-        if(user.message) {
+      fetchUsersByName(searchInput)
+          .then(user => {
+        if(user.message === "Not Found") {
           setUsers([])
         } else {
           const arr = [user]
@@ -29,7 +29,7 @@ const Home: NextPage = (props) => {
       setUsers(propsUsers)
     }
   }, [propsUsers, searchInput])
-  
+
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
   }
@@ -39,8 +39,8 @@ const Home: NextPage = (props) => {
   return (
     <div className={pagestyles.content}>
       <SearchPanel 
-        handleSearch={debounceHandleSearch} 
-        placeholder='Search for Users' 
+        handleSearch={debounceHandleSearch}
+        placeholder='Search for Users'
       />
       {
         users.map(user => {

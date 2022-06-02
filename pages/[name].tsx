@@ -9,6 +9,7 @@ import SearchPanel from "../components/searchPanel"
 import UserInfo from "../components/userInfo"
 import NoData from '../components/noData'
 import debounce from 'lodash.debounce'
+import {fetchAllUsersRepo, fetchUsersByName, fetchUsersByNameAndRepo} from "../utils"
 
 const UserId: NextPage = () => {
   const router = useRouter();
@@ -29,10 +30,12 @@ const UserId: NextPage = () => {
   const [repos, setRepos] = useState<Array<IRepos>>([]);
   const [searchInput, setSearchInput] = useState<string>('')
 
+  type fbn = {
+    name: string | string[]
+  }
   useEffect(() => {
     if (name) {
-      fetch(`https://api.github.com/users/${name}`)
-        .then((res) => res.json())
+      fetchUsersByName(name)
         .then((user) => setUser(user));
     }
   }, [name]);
@@ -40,26 +43,23 @@ const UserId: NextPage = () => {
   useEffect(() => {
     if (name) {
       if(searchInput.length > 0) {
-        fetch(`https://api.github.com/repos/${name}/${searchInput}`)
-          .then((res) => res.json())
+          fetchUsersByNameAndRepo(name, searchInput)
           .then((repo) => {
-            if(repo.message) {
+            if(repo.message === 'Not Found') {
               setRepos([])
             } else {
               const arr = [repo]
               setRepos(arr)
             }
-
           })
           .catch(_err => setRepos([]))
       } else {
-        fetch(`https://api.github.com/users/${name}/repos`)
-          .then((res) => res.json())
+        fetchAllUsersRepo(name)
           .then((repos) => setRepos(repos));
       }
     }
   }, [name, searchInput]);
-  
+
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
   }
