@@ -9,7 +9,7 @@ import SearchPanel from "../components/searchPanel"
 import UserInfo from "../components/userInfo"
 import NoData from '../components/noData'
 import debounce from 'lodash.debounce'
-import {fetchAllUsersRepo, fetchUsersByName, fetchUsersByNameAndRepo} from "../utils"
+import { APIService } from "../utils/apiService"
 
 const UserId: NextPage = () => {
   const router = useRouter();
@@ -30,20 +30,18 @@ const UserId: NextPage = () => {
   const [repos, setRepos] = useState<Array<IRepos>>([]);
   const [searchInput, setSearchInput] = useState<string>('')
 
-  type fbn = {
-    name: string | string[]
-  }
+
   useEffect(() => {
     if (name) {
-      fetchUsersByName(name)
-        .then((user) => setUser(user));
+      APIService.getUserByName(name)
+        .then((user) => setUser(user))
     }
   }, [name]);
 
   useEffect(() => {
     if (name) {
       if(searchInput.length > 0) {
-          fetchUsersByNameAndRepo(name, searchInput)
+          APIService.getUserRepo(name, searchInput)
           .then((repo) => {
             if(repo.message === 'Not Found') {
               setRepos([])
@@ -52,9 +50,9 @@ const UserId: NextPage = () => {
               setRepos(arr)
             }
           })
-          .catch(_err => setRepos([]))
+          .catch((_err) => setRepos([]))
       } else {
-        fetchAllUsersRepo(name)
+        APIService.getUserAllRepos(name)
           .then((repos) => setRepos(repos));
       }
     }
