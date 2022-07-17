@@ -39,6 +39,12 @@ const UserInfo = ({ user }: IUserInfo) => {
             Following: <span>{user.following}</span>
           </div>
           <div>Bio: {user.bio}</div>
+          <div>
+            Url:{" "}
+            <a href={user.html_url} target={"_blank"} rel="noreferrer">
+              {user.html_url}
+            </a>
+          </div>
         </div>
       </div>
     </div>
