@@ -1,7 +1,7 @@
 export interface ICard {
   avatarUrl: string;
   login: string;
-  url: string;
+  html_url: string;
 }
 
 export interface IUsers {
@@ -9,7 +9,8 @@ export interface IUsers {
   avatar_url: string,
   url: string,
   login: string,
-  users: any
+  users: any,
+  html_url: string,
 }
 
 export interface IUserId {
@@ -21,8 +22,9 @@ export interface IUserId {
   following: number,
   bio: string,
   email: null | string,
-  location: null | string
-  created_at: string
+  location: null | string,
+  created_at: string,
+  html_url: string,
 }
 
 export interface ILayoutProps {
@@ -32,7 +34,8 @@ export interface ILayoutProps {
 export interface ICardRepo {
   name: string,
   forks: number,
-  stargazers_count: number
+  stargazers_count: number,
+  html_url: string,
 }
 
 export interface IRepos {

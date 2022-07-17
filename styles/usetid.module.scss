@@ -1,4 +1,3 @@
-
 .userInfo {
   display: flex;
   width: 600px;
@@ -12,6 +11,7 @@
 
   .leftUserInfo {
     width: 50%;
+
     .userImage {
       margin: 40px 0px 0px 49px;
     }
@@ -19,11 +19,19 @@
 
   .rightUserInfo {
     width: 50%;
+
     span {
       font-weight: bold;
     }
+
     .infoText {
       margin-top: 40px;
+      word-wrap: break-word;
+      margin-right: 15px;
+
+      a {
+        color: var(--color-accent-fg);
+      }
     }
   }
 }

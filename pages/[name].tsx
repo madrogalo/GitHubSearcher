@@ -25,6 +25,7 @@ const UserId: NextPage = () => {
     name: "",
     public_gists: 0,
     public_repos: 0,
+    html_url: "",
   });
 
   const [repos, setRepos] = useState<Array<IRepos>>([]);
@@ -78,6 +79,7 @@ const UserId: NextPage = () => {
           name={repo.name}
           forks={repo.forks}
           stargazers_count={repo.stargazers_count}
+          html_url={repo.html_url}
         />
       ))}
       {!repos.length && <NoData />}

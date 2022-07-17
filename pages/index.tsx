@@ -46,7 +46,7 @@ const Home: NextPage = (props) => {
             key={user.id}
             avatarUrl={user.avatar_url}
             login={user.login}
-            url={user.url}
+            html_url={user.html_url}
           />
         );
       })}

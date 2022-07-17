@@ -1,6 +1,6 @@
 import React from "react";
-import styles from "../styles/SearchPanel.module.scss";
 import { ISearchPanel } from "../intarfaces";
+import styles from "../styles/SearchPanel.module.scss";
 
 const SearchPanel = ({ handleSearch, placeholder }: ISearchPanel) => {
   return (
