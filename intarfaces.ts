@@ -12,7 +12,6 @@ export interface IUsers {
   users: any
 }
 
-
 export interface IUserId {
   avatar_url: string,
   name: string
@@ -26,8 +25,7 @@ export interface IUserId {
   created_at: string
 }
 
-
-export interface LayoutProps {
+export interface ILayoutProps {
   children: React.ReactNode;
 }
 

@@ -1,62 +1,58 @@
-import React, { useEffect, useState } from 'react'
-import type { NextPage } from 'next'
-import debounce from 'lodash.debounce'
-import { IUsers } from '../intarfaces'
-import { fetchUsersByName } from '../utils'
-import Card from '../components/card'
-import SearchPanel from '../components/searchPanel'
-import pagestyles from '../styles/Page.module.scss'
-import NoData from '../components/noData'
-
+import React, { useEffect, useState } from "react";
+import type { NextPage } from "next";
+import debounce from "lodash.debounce";
+import { IUsers } from "../intarfaces";
+import { APIService } from "../utils/apiService";
+import Card from "../components/card";
+import SearchPanel from "../components/searchPanel";
+import pagestyles from "../styles/Page.module.scss";
+import NoData from "../components/noData";
 
 const Home: NextPage = (props) => {
-  const { users: propsUsers }: any = props
-  const [users, setUsers] = useState<Array<IUsers>>(propsUsers)
-  const [searchInput, setSearchInput] = useState<string>('')
+  const { users: propsUsers }: any = props;
+  const [users, setUsers] = useState<Array<IUsers>>(propsUsers);
+  const [searchInput, setSearchInput] = useState<string>("");
 
   useEffect(() => {
-    if(searchInput.length > 0) {
-      fetchUsersByName(searchInput)
-          .then(user => {
-        if(user.message === "Not Found") {
-          setUsers([])
+    if (searchInput.length > 0) {
+      APIService.getUserByName(searchInput).then((user) => {
+        if (user.message === "Not Found") {
+          setUsers([]);
         } else {
-          const arr = [user]
-          setUsers(arr)
+          const arr = [user];
+          setUsers(arr);
         }
-      })
+      });
     } else {
-      setUsers(propsUsers)
+      setUsers(propsUsers);
     }
-  }, [propsUsers, searchInput])
+  }, [propsUsers, searchInput]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
-  }
+  };
 
-  const debounceHandleSearch = debounce(handleSearch, 500)
+  const debounceHandleSearch = debounce(handleSearch, 500);
 
   return (
     <div className={pagestyles.content}>
-      <SearchPanel 
+      <SearchPanel
         handleSearch={debounceHandleSearch}
-        placeholder='Search for Users'
+        placeholder="Search for Users"
       />
-      {
-        users.map(user => {
-          return (
-            <Card
-              key={user.id}
-              avatarUrl={user.avatar_url}
-              login={user.login}
-              url={user.url}
-            />
-          )
-        })
-      }
+      {users.map((user) => {
+        return (
+          <Card
+            key={user.id}
+            avatarUrl={user.avatar_url}
+            login={user.login}
+            url={user.url}
+          />
+        );
+      })}
       {!users.length && <NoData />}
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
