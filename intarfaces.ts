@@ -42,7 +42,8 @@ export interface IRepos {
   id: number,
   name: string,
   forks: number,
-  stargazers_count: number
+  stargazers_count: number,
+  html_url: string
 }
 export interface IUserInfo {
   user: IUserId
