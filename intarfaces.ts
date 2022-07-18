@@ -51,4 +51,6 @@ export interface IUserInfo {
 export interface ISearchPanel {
   handleSearch: any;
   placeholder: string;
+  repoNames?: string[];
+  onClick?: any;
 }

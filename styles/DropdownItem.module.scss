@@ -1,0 +1,13 @@
+.dropdownItem {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    cursor: pointer;
+    background-color: var(--borderColor);
+    border-radius: 5px;
+    color: black;
+  }
+}

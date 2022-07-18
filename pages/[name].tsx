@@ -30,7 +30,7 @@ const UserId: NextPage = () => {
 
   const [repos, setRepos] = useState<Array<IRepos>>([]);
   const [searchInput, setSearchInput] = useState<string>('')
-
+  const [repoNames, setRepoNames] = useState<Array<string>>([]);
 
   useEffect(() => {
     if (name) {
@@ -61,6 +61,18 @@ const UserId: NextPage = () => {
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
+    const repoNamesArr = repos.map((item) => item.name);
+    const repoNamesArrFiltered = repoNamesArr.filter(item => item.includes(e.target.value));
+    if(e.target.value === '') { 
+      setRepoNames([])
+    } else {
+      setRepoNames(repoNamesArrFiltered);
+    }
+  }
+
+  const setValueFromDropdown = (value: string) => {
+    setSearchInput(value);
+    setRepoNames([]);
   }
 
   const debounceHandleSearch = debounce(handleSearch, 500)
@@ -71,6 +83,8 @@ const UserId: NextPage = () => {
       <SearchPanel
         handleSearch={debounceHandleSearch}
         placeholder={`Search for ${user.name}'s Repositories`}
+        repoNames={repoNames}
+        onClick={(value: string) => setValueFromDropdown(value)}
       />
 
       {repos.map((repo) => (
