@@ -1,0 +1,12 @@
+.dropdownPanel {
+  width: 400px;
+  border: 1px solid var(--borderColor);
+  border-radius: var(--borderRadius10);
+  background-color: var(--backgroundWhite);
+  padding: 10px;
+  max-height: 150px;
+  overflow: scroll;
+  position: absolute;
+  color: grey;
+  font-size: 18px;
+}
