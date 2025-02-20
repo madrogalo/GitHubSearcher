@@ -3,10 +3,10 @@ import type { NextPage } from "next";
 import debounce from "lodash.debounce";
 import { IUsers } from "../intarfaces";
 import { APIService } from "../utils/apiService";
-import Card from "../components/card";
-import SearchPanel from "../components/searchPanel";
+import Card from "../components/Card";
+import SearchPanel from "../components/SearchPanel";
 import pagestyles from "../styles/Page.module.scss";
-import NoData from "../components/noData";
+import NoData from "../components/NoData";
 
 const Home: NextPage = (props) => {
   const { users: propsUsers }: any = props;

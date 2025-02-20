@@ -1,15 +1,15 @@
-import type { NextPage } from "next"
-import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
-import { IUserId } from "../intarfaces"
-import CardRepo from "../components/cardRepo"
-import { IRepos } from "../intarfaces"
-import styles from "../styles/Page.module.scss"
-import SearchPanel from "../components/searchPanel"
-import UserInfo from "../components/userInfo"
-import NoData from '../components/noData'
-import debounce from 'lodash.debounce'
-import { APIService } from "../utils/apiService"
+import type { NextPage } from "next";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { IUserId } from "../intarfaces";
+import CardRepo from "../components/CardRepo";
+import { IRepos } from "../intarfaces";
+import styles from "../styles/Page.module.scss";
+import SearchPanel from "../components/SearchPanel";
+import UserInfo from "../components/UserInfo";
+import NoData from "../components/NoData";
+import debounce from "lodash.debounce";
+import { APIService } from "../utils/apiService";
 
 const UserId: NextPage = () => {
   const router = useRouter();
@@ -29,32 +29,30 @@ const UserId: NextPage = () => {
   });
 
   const [repos, setRepos] = useState<Array<IRepos>>([]);
-  const [searchInput, setSearchInput] = useState<string>('')
+  const [searchInput, setSearchInput] = useState<string>("");
   const [repoNames, setRepoNames] = useState<Array<string>>([]);
 
   useEffect(() => {
     if (name) {
-      APIService.getUserByName(name)
-        .then((user) => setUser(user))
+      APIService.getUserByName(name).then((user) => setUser(user));
     }
   }, [name]);
 
   useEffect(() => {
     if (name) {
-      if(searchInput.length > 0) {
-          APIService.getUserRepo(name, searchInput)
+      if (searchInput.length > 0) {
+        APIService.getUserRepo(name, searchInput)
           .then((repo) => {
-            if(repo.message === 'Not Found') {
-              setRepos([])
+            if (repo.message === "Not Found") {
+              setRepos([]);
             } else {
-              const arr = [repo]
-              setRepos(arr)
+              const arr = [repo];
+              setRepos(arr);
             }
           })
-          .catch((_err) => setRepos([]))
+          .catch((_err) => setRepos([]));
       } else {
-        APIService.getUserAllRepos(name)
-          .then((repos) => setRepos(repos));
+        APIService.getUserAllRepos(name).then((repos) => setRepos(repos));
       }
     }
   }, [name, searchInput]);
@@ -62,20 +60,22 @@ const UserId: NextPage = () => {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
     const repoNamesArr = repos.map((item) => item.name);
-    const repoNamesArrFiltered = repoNamesArr.filter(item => item.includes(e.target.value));
-    if(e.target.value === '') { 
-      setRepoNames([])
+    const repoNamesArrFiltered = repoNamesArr.filter((item) =>
+      item.includes(e.target.value)
+    );
+    if (e.target.value === "") {
+      setRepoNames([]);
     } else {
       setRepoNames(repoNamesArrFiltered);
     }
-  }
+  };
 
   const setValueFromDropdown = (value: string) => {
     setSearchInput(value);
     setRepoNames([]);
-  }
+  };
 
-  const debounceHandleSearch = debounce(handleSearch, 500)
+  const debounceHandleSearch = debounce(handleSearch, 500);
 
   return (
     <div className={styles.content}>
