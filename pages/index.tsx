@@ -16,7 +16,7 @@ const Home: NextPage = (props) => {
   useEffect(() => {
     if (searchInput.length > 0) {
       APIService.getUserByName(searchInput).then((user) => {
-        if (user.message === "Not Found") {
+        if (!user) {
           setUsers([]);
         } else {
           const arr = [user];
@@ -40,17 +40,20 @@ const Home: NextPage = (props) => {
         handleSearch={debounceHandleSearch}
         placeholder="Search for Users"
       />
-      {users.map((user) => {
-        return (
-          <Card
-            key={user.id}
-            avatarUrl={user.avatar_url}
-            login={user.login}
-            html_url={user.html_url}
-          />
-        );
-      })}
-      {!users.length && <NoData />}
+      {users.length ? (
+        users.map((user) => {
+          return (
+            <Card
+              key={user.id}
+              avatarUrl={user.avatar_url}
+              login={user.login}
+              html_url={user.html_url}
+            />
+          );
+        })
+      ) : (
+        <NoData />
+      )}
     </div>
   );
 };
