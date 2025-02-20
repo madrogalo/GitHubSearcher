@@ -1,9 +1,14 @@
 import React from "react";
 import { ISearchPanel } from "../intarfaces";
 import styles from "../styles/SearchPanel.module.scss";
-import DropdownPanel from "./dropdownPanel/index";
+import DropdownPanel from "./DropdownPanel";
 
-const SearchPanel = ({ handleSearch, placeholder, repoNames, onClick }: ISearchPanel) => {
+const SearchPanel = ({
+  handleSearch,
+  placeholder,
+  repoNames,
+  onClick,
+}: ISearchPanel) => {
   return (
     <div>
       <input
@@ -12,7 +17,9 @@ const SearchPanel = ({ handleSearch, placeholder, repoNames, onClick }: ISearchP
         type="text"
         onChange={handleSearch}
       />
-      {repoNames && repoNames.length > 0 && <DropdownPanel onClick={onClick} items={repoNames}/>}
+      {repoNames && repoNames.length > 0 && (
+        <DropdownPanel onClick={onClick} items={repoNames} />
+      )}
     </div>
   );
 };

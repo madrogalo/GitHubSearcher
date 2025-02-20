@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import type { NextPage } from "next";
-import debounce from "lodash.debounce";
+import { debounce } from "../utils/debounce";
 import { IUsers } from "../intarfaces";
 import { APIService } from "../utils/apiService";
 import Card from "../components/Card";

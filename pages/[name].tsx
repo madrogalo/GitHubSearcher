@@ -4,12 +4,13 @@ import { useEffect, useState } from "react";
 import { IUserId } from "../intarfaces";
 import CardRepo from "../components/CardRepo";
 import { IRepos } from "../intarfaces";
-import styles from "../styles/Page.module.scss";
 import SearchPanel from "../components/SearchPanel";
 import UserInfo from "../components/UserInfo";
 import NoData from "../components/NoData";
-import debounce from "lodash.debounce";
+import { debounce } from "../utils/debounce";
 import { APIService } from "../utils/apiService";
+
+import styles from "../styles/Page.module.scss";
 
 const UserId: NextPage = () => {
   const router = useRouter();

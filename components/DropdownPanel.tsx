@@ -1,10 +1,10 @@
 import React from "react";
-import DropdownItem from "./dropdownItem";
-import styles from "../../styles/DropdownPanel.module.scss";
+import DropdownItem from "./DropdownItem";
+import styles from "../styles/DropdownPanel.module.scss";
 
 interface IItems {
   items: string[];
-  onClick: () => string
+  onClick: () => string;
 }
 
 const DropdownPanel = ({ items, onClick }: IItems) => {
